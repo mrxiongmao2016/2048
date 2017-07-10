@@ -28,7 +28,7 @@ header #newgamebutton:hover{
 }
 header p{
     font-size: 25px;
-    margin: 20px 0;
+    margin: 15px 0;
 }
 #grid-container{
     width: 460px;
@@ -38,6 +38,7 @@ header p{
     border-radius: 10px;
     position: relative;
     background-color: #bbada0;
+
 }
 .grid-cell{
     width: 100px;
@@ -55,4 +56,25 @@ header p{
     text-align: center;
     font-size: 50px;
 
+}
+/*游戏结束的弹窗*/
+#gameover{
+    position: absolute;
+    z-index: 20;
+    display: none;
+    border-radius: 8px;
+}
+#gameover p{
+    text-align: center;
+    padding: 15px;
+}
+#gameagain{
+    border-radius: 6px;
+    background-color: #FF7201;
+}
+#gameover h2{
+    text-align: center;
+}
+#gameover em{
+    font-style: normal;
 }
