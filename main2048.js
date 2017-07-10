@@ -96,6 +96,15 @@ function updateBoardView() {//更新面板上的数字
                 theNumberCell.text(board[i][j]);
             }
             hasConflic[i][j]=false;
+            if(board[i][j]>100){//数字超过三位数，字体变小；
+                $("#number-cell-"+i+"-"+j).css({
+                    "font-size":0.4*cellSideLength+"px",
+                });
+            }else if(board[i][j]>1000){//数字超过四位数，字体变小；
+                $("#number-cell-"+i+"-"+j).css({
+                    "font-size":0.4*cellSideLength+"px",
+                });
+            }
         }
         $(".number-cell").css("line-height",cellSideLength+"px")//行高；
     }
