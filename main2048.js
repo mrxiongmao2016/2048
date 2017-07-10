@@ -5,6 +5,8 @@
 var board=[ ];
 var score=0;
 var hasConflic=[ ];//标记目标数组是否已经发生过一次叠加碰撞；
+
+
 $(document).ready(function(){
     preForMoible()//自适应初始化移动端大盒子的宽高等布局；
     newgame()
@@ -17,22 +19,32 @@ function newgame() {
     //在随机两个格子生产数字
     generateOneNumber();
     generateOneNumber();
+
+    //上一次结束时的游戏弹窗隐藏
+    $("#gameover").css("display","none");
 }
 function preForMoible() {
+    var grid_container=$("#grid-container");
+    var grid_cell=$(".grid-cell");
     if( documentWidth > 500 ){
         gridContainerWidth = 500;
         cellSpace = 20;
         cellSideLength = 100;
     }
 
-    $("#grid-container").css("width",gridContainerWidth-(cellSpace*2));
-    $("#grid-container").css("height",gridContainerWidth-(cellSpace*2));
-    $("#grid-container").css("padding",cellSpace);
-    $("#grid-container").css("border-radius",gridContainerWidth*0.02);
+    grid_container.css({
+        "width":gridContainerWidth-(cellSpace*2),
+        "height":gridContainerWidth-(cellSpace*2),
+        "padding":cellSpace,
+        "border-radius":gridContainerWidth*0.02,
 
-    $(".grid-cell").css("width",cellSideLength)
-    $(".grid-cell").css("height",cellSideLength)
-    $(".grid-cell").css("border-radius",cellSideLength*0.02)
+    });
+    grid_cell.css({
+        "width":cellSideLength,
+        "height":cellSideLength,
+        "border-radius":cellSideLength*0.02,
+    });
+
 }
 function init() {
 
@@ -64,18 +76,23 @@ function updateBoardView() {//更新面板上的数字
 
             var theNumberCell=$("#number-cell-"+i+"-"+j);
             if(board[i][j]==0){
-                theNumberCell.css("width",0);
-                theNumberCell.css("height",0);
-                theNumberCell.css("top",getPosTop(i,j)+(cellSideLength/2));
-                theNumberCell.css("left",getPosLeft(i,j)+(cellSideLength/2));
+                theNumberCell.css({
+                    "width":0,
+                    "height":0,
+                    "top":getPosTop(i,j)+(cellSideLength/2),
+                    "left":getPosLeft(i,j)+(cellSideLength/2),
+                });
+
 
             }else{
-                theNumberCell.css("width",cellSideLength);
-                theNumberCell.css("height",cellSideLength);
-                theNumberCell.css("top",getPosTop(i,j));
-                theNumberCell.css("left",getPosLeft(i,j));
-                theNumberCell.css("background-color",getNumberBackgroundColor(board[i][j]));
-                theNumberCell.css("color",getNumberColor(board[i][j]));
+                theNumberCell.css({
+                    "width":cellSideLength,
+                    "height":cellSideLength,
+                    "top":getPosTop(i,j),
+                    "left":getPosLeft(i,j),
+                    "background-color":getNumberBackgroundColor(board[i][j]),
+                    "color":getNumberColor(board[i][j])
+                });
                 theNumberCell.text(board[i][j]);
             }
             hasConflic[i][j]=false;
@@ -212,7 +229,7 @@ function isgameover() {
 }
 
 function gameover() {
-    alert("gamerover")
+    alertGameover();
 }
 function moveLeft() {//向左移动
     if(!canMoveLeft(board)){
@@ -280,7 +297,7 @@ function moveDown() {//向下
         return false;
     }
     for(var j=0;j<4;j++){
-        for(var i=0;i<3;i++){
+        for(var i=2;i>=0;i--){
             if(board[i][j]!=0){
                 for(var k=3;k>i;k--){
                     if( board[k][j]==0&&noBlock_lie(j,i,k,board)){
@@ -309,7 +326,7 @@ function moveUp() {//向上
         return false;
     }
     for(var j=0;j<4;j++){
-        for(var i=3;i>0;i--){
+        for(var i=1;i<4;i++){
             if(board[i][j]!=0){
                 for(var k=0;k<i;k++){
                     if( board[k][j]==0&&noBlock_lie(j,k,i,board)){
@@ -331,4 +348,29 @@ function moveUp() {//向上
     }
     setTimeout("updateBoardView()",200)
     return true;
+}
+
+//gameover弹出窗
+function alertGameover() {
+    var gameover_div=$("#gameover");
+    var gamover=$("#gamover >h2");
+    var gameagin=$("#gameagain");
+    var totals=$("#total");
+    var miniScore=$("em");
+
+    gameover_div.css({
+        width:0.5*gridContainerWidth,
+        height:0.5*gridContainerWidth,
+        left:0.3*gridContainerWidth,
+        top:0.2*gridContainerWidth,
+        display:"block",
+
+        background:"white"
+
+    })
+
+    gameagin.on("click",function (event) {
+        newgame();
+    })
+    miniScore.text(score);
 }
