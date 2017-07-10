@@ -98,9 +98,9 @@ function updateBoardView() {//更新面板上的数字
             hasConflic[i][j]=false;
             if(board[i][j]>100){//数字超过三位数，字体变小；
                 $("#number-cell-"+i+"-"+j).css({
-                    "font-size":0.4*cellSideLength+"px",
+                    "font-size":0.5*cellSideLength+"px",
                 });
-            }else if(board[i][j]>1000){//数字超过四位数，字体变小；
+            }else if(board[i][j]>1000){//数字超过四位数，字体再变小；
                 $("#number-cell-"+i+"-"+j).css({
                     "font-size":0.4*cellSideLength+"px",
                 });
